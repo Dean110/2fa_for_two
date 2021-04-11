@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # require 'twilio-ruby'
 # require 'sinatra'
 
@@ -15,17 +17,8 @@ require 'sinatra'
 post '/sms-quickstart' do
   # transform request body to lowercase
   body = params['Body'].downcase
-    puts params
-  # Build response based on given body param
-  twiml = Twilio::TwiML::MessagingResponse.new do |resp|
-    if body == 'hello'
-      resp.message body: 'Hi, Amy!'
-    elsif body == 'bye'
-      resp.message body: 'Goodbye, Amy!'        
-    else
-        resp.message body: 'Say hello -or- bye'
-    end
-  end
+
+  Receiver.instance.receive_message(message: body)
 
   twiml.to_s
 end
